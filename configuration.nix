@@ -15,7 +15,7 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "MASTER-NIX"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -148,22 +148,28 @@
   virtualisation.docker.enable = true;
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
-  # Enabling Cron service
-  services.cron.enable = true;
 
-  # Here is where you define the Cron tasks.
-  services.cron.jobs = {
-    updateFlake = {
-      description = "Update the Flake Github Repo every 1hr 30mins";
-      user = "alto";
-      command = "git -C /home/alto/Flake pull";
-      schedule = "*/30 */1 * * *";
+
+  # Systemd service to update Flake repository
+  systemd.services.updateFlakeRepo = {
+    description = "Update Flake Repository";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.git}/bin/git pull";
+      User = "alto";
+      WorkingDirectory = "/home/alto/Flake";
     };
-    updateAnsible = {
-      description = "Update the Ansible Playbook Github Repo every 1hr 30mins";
-      user = "alto";
-      command = "git -C /home/alto/Ansible pull";
-      schedule = "*/30 */1 * * *";
+  };
+  # Systemd timer to schedule the service
+  systemd.timers.updateFlakeRepo = {
+    description = "Timer for updateFlakeRepo.service";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "10min";
+      OnUnitActiveSec = "1h 30min";
+      Persistent = true;
     };
   };
 
