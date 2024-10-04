@@ -78,6 +78,7 @@
         hashedPassword = "*";
       };
     };
+  };
   users.users.alto = {
     isNormalUser = true;
     description = "alto";
@@ -200,4 +201,4 @@
     };
   };
 
-};
+}
