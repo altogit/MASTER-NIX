@@ -168,7 +168,7 @@
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "10min";
-      OnUnitActiveSec = "1h 30min";
+      OnUnitActiveSec = "6h 0min";
       Persistent = true;
     };
   };
@@ -192,6 +192,27 @@
     timerConfig = {
       OnBootSec = "10min";
       OnUnitActiveSec = "1h 30min";
+      Persistent = true;
+    };
+  };
+
+  # Systemd service for rebuilding NixOS
+  systemd.services.nixosRebuild = {
+    description = "Rebuild NixOS Configuration";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.nix}/bin/nixos-rebuild switch --flake ./#MASTER-NIX";
+      WorkingDirectory = "/home/alto/Flake"
+    };
+  };
+  # Systemd timer for rebuilding NixOSsys
+  systemd.timers.nixosRebuild = {
+    description = "Timer for nixosRebuild.service";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "16:30";
       Persistent = true;
     };
   };
