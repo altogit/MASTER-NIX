@@ -173,4 +173,27 @@
     };
   };
 
+  # Systemd service to update Ansible repository
+  systemd.services.updateAnsibleRepo = {
+    description = "Update Ansible Repository";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.git}/bin/git pull";
+      User = "alto";
+      WorkingDirectory = "/home/alto/Ansible";
+    };
+  };
+  # Systemd timer to schedule the Ansible service
+  systemd.timers.updateAnsibleRepo = {
+    description = "Timer for updateAnsibleRepo.service";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "10min";
+      OnUnitActiveSec = "1h 30min";
+      Persistent = true;
+    };
+  };
+
 }
