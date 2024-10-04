@@ -75,13 +75,13 @@
     mutableUsers = false;
     extraUsers = {
       root = {
-        hashedPassword = "*"
+        hashedPassword = "*";
       };
     };
   users.users.alto = {
     isNormalUser = true;
     description = "alto";
-    hashedPassword = "$6$gC/dArwhdt2So2tK$y.xbzqelEnKhR1xZbyZCjRd61R.c1lJrRxQRZPVB0dzEuAkOJ0v2ZtnTd1Fvsb0xi6KhdtSFIMuF86T4U.ohf1"
+    hashedPassword = "$6$gC/dArwhdt2So2tK$y.xbzqelEnKhR1xZbyZCjRd61R.c1lJrRxQRZPVB0dzEuAkOJ0v2ZtnTd1Fvsb0xi6KhdtSFIMuF86T4U.ohf1";
     extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
     #  thunderbird
@@ -190,7 +190,7 @@
       WorkingDirectory = "/home/alto/Flake"
     };
   };
-  # Systemd timer for rebuilding NixOSsys
+  # Systemd timer for rebuilding NixOS
   systemd.timers.nixosRebuild = {
     description = "Timer for nixosRebuild.service";
     wantedBy = [ "timers.target" ];
