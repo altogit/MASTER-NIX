@@ -156,13 +156,13 @@
     updateFlake = {
       description = "Update the Flake Github Repo every 1hr 30mins";
       user = "alto";
-      command = "gh repo clone MASTER-NIX /home/alto/Fla";
+      command = "git -C /home/alto/Flake pull";
       schedule = "*/30 */1 * * *";
     };
     updateAnsible = {
       description = "Update the Ansible Playbook Github Repo every 1hr 30mins";
       user = "alto";
-      command = "gh repo clone ansible /home/alto/Ansible";
+      command = "git -C /home/alto/Ansible pull";
       schedule = "*/30 */1 * * *";
     };
   };
