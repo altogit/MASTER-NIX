@@ -151,11 +151,12 @@
   # Enabling Cron service
   services.cron.enable = true;
 
+  # Here is where you define the Cron tasks.
   services.cron.jobs = {
     updateFlake = {
       description = "Update the Flake Github Repo every 1hr 30mins";
       user = "alto";
-      command = "gh repo clone MASTER-NIX /home/alto/Flake";
+      command = "gh repo clone MASTER-NIX /home/alto/Fla";
       schedule = "*/30 */1 * * *";
     };
     updateAnsible = {
