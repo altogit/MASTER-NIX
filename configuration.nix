@@ -25,6 +25,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Open ports in the firewall.
+   networking.firewall.allowedTCPPorts = [ 22 ];
+   networking.firewall.allowedUDPPorts = [ ];
+  # Or disable the firewall altogether.
+   networking.firewall.enable = true;
+
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
@@ -57,16 +63,16 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    enable = false;
+    # alsa.enable = true;
+    # alsa.support32Bit = true;
+    # pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -89,7 +95,7 @@
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
+  # programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -123,17 +129,6 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
-
-  # Open ports in the firewall.
-   networking.firewall.allowedTCPPorts = [ ];
-   networking.firewall.allowedUDPPorts = [ ];
-  # Or disable the firewall altogether.
-   networking.firewall.enable = true;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -146,6 +141,29 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enabling services.
+  
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+  # Docker service
   virtualisation.docker.enable = true;
+  # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
+  # Enabling Cron service
+  services.cron.enable = true;
+
+  services.cron.jobs = {
+    updateFlake = {
+      description = "Update the Flake Github Repo every 1hr 30mins";
+      user = "alto";
+      command = "gh repo clone MASTER-NIX /home/alto/Flake";
+      schedule = "*/30 */1 * * *";
+    };
+    updateAnsible = {
+      description = "Update the Ansible Playbook Github Repo every 1hr 30mins";
+      user = "alto";
+      command = "gh repo clone ansible /home/alto/Ansible";
+      schedule = "*/30 */1 * * *";
+    };
+  };
+
 }
