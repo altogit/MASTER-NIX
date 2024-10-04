@@ -187,7 +187,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.nix}/bin/nixos-rebuild switch --flake ./#MASTER-NIX";
-      WorkingDirectory = "/home/alto/Flake"
+      WorkingDirectory = "/home/alto/Flake";
     };
   };
   # Systemd timer for rebuilding NixOS
