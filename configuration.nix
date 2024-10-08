@@ -79,7 +79,7 @@
       };
     };
   };
-  users.users.userSettings.username = {
+  users.users.$userSettings.username = {
     isNormalUser = true;
     description = userSettings.name;
     hashedPassword = "$6$gC/dArwhdt2So2tK$y.xbzqelEnKhR1xZbyZCjRd61R.c1lJrRxQRZPVB0dzEuAkOJ0v2ZtnTd1Fvsb0xi6KhdtSFIMuF86T4U.ohf1";
