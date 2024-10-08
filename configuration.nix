@@ -142,7 +142,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.git}/bin/git pull";
-      User = userSettings.username;
+      User = "{$userSettings.username}";
       WorkingDirectory = "/home/alto/Flake";
     };
   };
@@ -165,7 +165,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.git}/bin/git pull";
-      User = userSettings.username;
+      User = "{$userSettings.username}";
       WorkingDirectory = "/home/alto/Ansible";
     };
   };
@@ -208,7 +208,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.nix}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key &> ./patch.log";
-      User = userSettings.username;
+      User = "{$userSettings.username}";
       WorkingDirectory = "/home/Ansible/alto/rebootmachines";
     };
   };
