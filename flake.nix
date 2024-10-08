@@ -32,6 +32,8 @@
               system = systemSettings.system;
               config.allowUnfree = true;
             };
+            userSettings = userSettings;
+            systemSettings = systemSettings;
           };
           modules = [
             ./configuration.nix
