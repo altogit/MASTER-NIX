@@ -25,11 +25,11 @@
         MASTER-NIX = nixpkgs.lib.nixosSystem rec {
           specialArgs = {
             pkgs-18 = import oldpkgs {
-              system = system;
+              system = systemSettings.system;
               config.allowUnfree = true;
             };
             unstablep = import unstablepkgs {
-              system = system;
+              system = systemSettings.system;
               config.allowUnfree = true;
             };
           };
