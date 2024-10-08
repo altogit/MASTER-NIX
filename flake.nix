@@ -27,10 +27,10 @@
             pkgs-18 = import oldpkgs {
               system = system;
               config.allowUnfree = true;
+            };
             unstablep = import unstablepkgs {
               system = system;
               config.allowUnfree = true;
-            }
             };
           };
           modules = [
