@@ -209,7 +209,7 @@
       Type = "oneshot";
       ExecStart = "${pkgs.nix}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key &> ./patch.log";
       User = "${userSettings.username}";
-      WorkingDirectory = "/home//alto/Ansible/alto/rebootmachines";
+      WorkingDirectory = "/home/alto/Ansible/alto/rebootmachines";
     };
   };
   # Systemd timer for rebuilding NixOS
