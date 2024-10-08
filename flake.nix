@@ -10,14 +10,27 @@
   outputs = inputs@{ self, nixpkgs, oldpkgs, unstablepkgs}:
     let
       lib = nixpkgs.lib;
+      
+      userSettings = {
+        username = "alto";
+        name = "Alto";
+      };
+      systemSettings = {
+        system = "x86_64-linux";
+        hostname = "MASTER-NIX";
+        timezone = "Australia/Sydney";
+      };
     in {
       nixosConfigurations = {
         MASTER-NIX = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
           specialArgs = {
             pkgs-18 = import oldpkgs {
               system = system;
               config.allowUnfree = true;
+            unstablep = import unstablepkgs {
+              system = system;
+              config.allowUnfree = true;
+            }
             };
           };
           modules = [

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, unstablep, pkgs-18, userSettings, systemSettings, ... }:
 
 {
   imports =
@@ -15,7 +15,7 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "MASTER-NIX"; # Define your hostname.
+  networking.hostName = $systemSettings.hostname; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -27,7 +27,7 @@
    networking.firewall.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Australia/Sydney";
+  time.timeZone = $systemSettings.timezone;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_AU.UTF-8";
@@ -79,9 +79,9 @@
       };
     };
   };
-  users.users.alto = {
+  users.users.$userSettings.username = {
     isNormalUser = true;
-    description = "alto";
+    description = $userSettings.name;
     hashedPassword = "$6$gC/dArwhdt2So2tK$y.xbzqelEnKhR1xZbyZCjRd61R.c1lJrRxQRZPVB0dzEuAkOJ0v2ZtnTd1Fvsb0xi6KhdtSFIMuF86T4U.ohf1";
     extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
@@ -142,7 +142,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.git}/bin/git pull";
-      User = "alto";
+      User = $userSettings.username;
       WorkingDirectory = "/home/alto/Flake";
     };
   };
@@ -165,7 +165,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.git}/bin/git pull";
-      User = "alto";
+      User = $userSettings.username;
       WorkingDirectory = "/home/alto/Ansible";
     };
   };
@@ -200,5 +200,25 @@
       Persistent = true;
     };
   };
-
+    # Systemd service for running playbook
+  systemd.services.ansibleRebootMachines = {
+    description = "Reboot all the servers, daily.";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.nix}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key &> ./patch.log";
+      User = $userSettings.username;
+      WorkingDirectory = "/home/Ansible/alto/rebootmachines";
+    };
+  };
+  # Systemd timer for rebuilding NixOS
+  systemd.timers.ansibleRebootMachines = {
+    description = "Timer for ansibleRebootMachines.service";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "04:30";
+      Persistent = true;
+    };
+  };
 }
