@@ -15,7 +15,7 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = $systemSettings.hostname; # Define your hostname.
+  networking.hostName = systemSettings.hostname; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -27,7 +27,7 @@
    networking.firewall.enable = true;
 
   # Set your time zone.
-  time.timeZone = $systemSettings.timezone;
+  time.timeZone = systemSettings.timezone;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_AU.UTF-8";
@@ -79,9 +79,9 @@
       };
     };
   };
-  users.users.$userSettings.username = {
+  users.users.userSettings.username = {
     isNormalUser = true;
-    description = $userSettings.name;
+    description = userSettings.name;
     hashedPassword = "$6$gC/dArwhdt2So2tK$y.xbzqelEnKhR1xZbyZCjRd61R.c1lJrRxQRZPVB0dzEuAkOJ0v2ZtnTd1Fvsb0xi6KhdtSFIMuF86T4U.ohf1";
     extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
@@ -142,7 +142,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.git}/bin/git pull";
-      User = $userSettings.username;
+      User = userSettings.username;
       WorkingDirectory = "/home/alto/Flake";
     };
   };
@@ -165,7 +165,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.git}/bin/git pull";
-      User = $userSettings.username;
+      User = userSettings.username;
       WorkingDirectory = "/home/alto/Ansible";
     };
   };
@@ -208,7 +208,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.nix}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key &> ./patch.log";
-      User = $userSettings.username;
+      User = userSettings.username;
       WorkingDirectory = "/home/Ansible/alto/rebootmachines";
     };
   };
