@@ -210,8 +210,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key";
       User = "${userSettings.username}";
       WorkingDirectory = "/home/alto/Ansible/alto/rebootmachines";
-      StandardOutput = "append:./patch.log";
-      StandardError = "append:./patch.log";
+      StandardOutput = "append:/home/alto/Ansible/alto/rebootmachines/patch.log";
+      StandardError = "append:/home/alto/Ansible/alto/rebootmachines/patch.log";
     };
   };
   # Systemd timer for rebuilding NixOS
