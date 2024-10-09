@@ -111,6 +111,7 @@
     iproute2
     ansible
     gh
+    openssh
   ];
 
   # This value determines the NixOS release from which the default
@@ -212,6 +213,10 @@
       WorkingDirectory = "/home/alto/Ansible/alto/rebootmachines";
       StandardOutput = "append:/home/alto/Ansible/alto/rebootmachines/patch.log";
       StandardError = "append:/home/alto/Ansible/alto/rebootmachines/patch.log";
+      Environment = [
+        "HOME=/home/alto"
+        "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
+      ];
     };
   };
   # Systemd timer for rebuilding NixOS
