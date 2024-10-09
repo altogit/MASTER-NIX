@@ -207,7 +207,7 @@
     wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.nix}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key -vvv &> ./patch.log";
+      ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key -vvv &> ./patch.log";
       User = "${userSettings.username}";
       WorkingDirectory = "/home/alto/Ansible/alto/rebootmachines";
     };
