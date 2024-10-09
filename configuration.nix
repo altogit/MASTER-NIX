@@ -207,9 +207,11 @@
     wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key -vvv &> ./patch.log";
+      ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/alto/GH/vault.key";
       User = "${userSettings.username}";
       WorkingDirectory = "/home/alto/Ansible/alto/rebootmachines";
+      StandardOutput = "append:./patch.log";
+      StandardError = "append:./patch.log";
     };
   };
   # Systemd timer for rebuilding NixOS
