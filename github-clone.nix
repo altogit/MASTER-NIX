@@ -91,8 +91,7 @@ in
 
           # Reset the remote URL to remove the token after pulling
           $GIT -C "$repo.destination" remote set-url origin "https://$repo.url"
-          '
-          '';          
+          '';
           # Ensure that the token is not exposed in the environment or logs
           PassEnvironment = [];
         };
