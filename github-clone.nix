@@ -4,7 +4,7 @@ with lib;
 
 let
   cfg = config.services.githubClone;
-  GITHUB_TOKEN = "${userSettings.gitHubPAT}"
+  GITHUB_TOKEN = "${userSettings.gitHubPAT}";
 in
 {
 
