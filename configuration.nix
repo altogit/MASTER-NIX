@@ -126,7 +126,7 @@
   services.openssh = {
     enable = true;
     permitRootLogin = "no";
-    allowUsers = [ "${userSettings.username}" ];
+    settings.allowUsers = [ "${userSettings.username}" ];
   };
   # Docker service
   virtualisation.docker.enable = true;
