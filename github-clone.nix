@@ -64,9 +64,10 @@ in
             "GIT=${pkgs.git}/bin/git"
             "REPO_USER=${repo.user}"
             "REPO_DESTINATION=${repo.destination}"
+            "SH=${pkgs.sh}/bin/sh"
           ];
           ExecStart = ''
-          #!/run/current-system/sw/bin/sh -C '
+          SH -C '
           set -e
           # Prepare the URL with the token included
           AUTHENTICATED_URL="https://$repo.user:$GITHUB_TOKEN@$repo.url"
@@ -90,6 +91,7 @@ in
 
           # Reset the remote URL to remove the token after pulling
           $GIT -C "$repo.destination" remote set-url origin "https://$repo.url"
+          '
           '';          
           # Ensure that the token is not exposed in the environment or logs
           PassEnvironment = [];
