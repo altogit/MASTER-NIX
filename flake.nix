@@ -9,7 +9,7 @@
 
   outputs = inputs@{ self, nixpkgs, oldpkgs, unstablepkgs}:
     let
-      lib = nixpkgs.lib;
+      libs = nixpkgs.lib;
       userSettings = {
         username = "alto";
         name = "Alto";
@@ -24,7 +24,7 @@
       };
     in {
       nixosConfigurations = {
-        MASTER-NIX = nixpkgs.lib.nixosSystem rec {
+        MASTER-NIX = nixpkgs.libs.nixosSystem rec {
           specialArgs = {
             pkgs-18 = import oldpkgs {
               system = systemSettings.system;
