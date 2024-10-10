@@ -15,7 +15,7 @@ in
       description = "Enable the GitHub repository cloning service.";
     };
     repositories = mkOption {
-      type = types.listOf (types.attrs);
+      type = types.listOf types.attrs;
       default = [];
       description = ''
         A list of repositories to clone or update, each with:
@@ -34,62 +34,75 @@ in
   config = mkIf cfg.enable {
 
     # Secrets handling
-    services.githubClone.secrets = genAttrs (map (r: r.name) cfg.repositories) (r: {
-      source = r.token;
-    });
+    services.githubClone.secrets = listToAttrs (map (r: {
+      name = r.name;
+      value = {
+        source = r.token;
+      };
+    }) cfg.repositories);
 
-    # Systemd services and timers
-    systemd.services = genAttrs (cfg.repositories) (r: {
+    # Systemd services
+    systemd.services = listToAttrs (map (r: {
       name = "githubClone-${r.name}.service";
-      description = "Clone or update Git repository ${r.url}";
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        User = r.user;
-        Environment = [
-          "GITHUB_TOKEN_FILE=${config.services.githubClone.secrets.${r.name}.path}"
-          "REPO_URL=${r.url}"
-          "DESTINATION=${r.destination}"
-          "GIT=${pkgs.git}/bin/git"
-        ];
-        ExecStart = ''
-          set -e
+      value = {
+        description = "Clone or update Git repository ${r.url}";
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          User = r.user;
+          Environment = [
+            "GITHUB_TOKEN_FILE=${config.services.githubClone.secrets.${r.name}.path}"
+            "REPO_URL=${r.url}"
+            "DESTINATION=${r.destination}"
+            "GIT=${pkgs.git}/bin/git"
+          ];
+          ExecStart = ''
+            set -e
 
-          # Read the GitHub token
-          GITHUB_TOKEN=$(cat "$GITHUB_TOKEN_FILE")
+            # Read the GitHub token
+            GITHUB_TOKEN=$(cat "$GITHUB_TOKEN_FILE")
 
-          # Encode the token to handle special characters
-          ENCODED_TOKEN=$(printf %s "$GITHUB_TOKEN" | ${pkgs.lib.encodeBase64})
+            # Prepare the URL with the token included
+            AUTHENTICATED_URL="https://${r.user}:${GITHUB_TOKEN}@${r.url}"
 
-          # Prepare the URL with the token included
-          AUTHENTICATED_URL="https://${r.user}:${GITHUB_TOKEN}@${r.url}"
+            # Mask the token in logs
+            MASKED_URL="https://${r.user}:<token>@${r.url}"
 
-          # Mask the token in logs by using a placeholder
-          MASKED_URL="https://${r.user}:<token>@${r.url}"
+            # Check if the repository exists
+            if [ -d "${r.destination}/.git" ]; then
+              echo "Updating repository at ${r.destination}"
 
-          # Check if the repository exists
-          if [ -d "${r.destination}/.git" ]; then
-            echo "Updating repository ${r.name} at ${r.destination}"
-            $GIT -C ${r.destination} pull --rebase origin $(git -C ${r.destination} rev-parse --abbrev-ref HEAD)
-          else
-            echo "Cloning repository ${MASKED_URL} into ${r.destination}"
-            $GIT clone "${AUTHENTICATED_URL}" "${r.destination}"
-          fi
-        '';
-        # Ensure that the token is not exposed in the environment or logs
-        PassEnvironment = [];
+              # Update the remote URL to include the token
+              $GIT -C "${r.destination}" remote set-url origin "${AUTHENTICATED_URL}"
+
+              # Pull with rebase
+              $GIT -C "${r.destination}" pull --rebase
+            else
+              echo "Cloning repository ${MASKED_URL} into ${r.destination}"
+              $GIT clone "${AUTHENTICATED_URL}" "${r.destination}"
+            fi
+
+            # Reset the remote URL to remove the token after pulling
+            $GIT -C "${r.destination}" remote set-url origin "https://${r.url}"
+          '';
+          # Ensure that the token is not exposed in the environment or logs
+          PassEnvironment = [];
+        };
       };
-    });
+    }) cfg.repositories);
 
-    systemd.timers = genAttrs (cfg.repositories) (r: {
+    # Systemd timers
+    systemd.timers = listToAttrs (map (r: {
       name = "githubClone-${r.name}.timer";
-      description = "Timer for cloning/updating ${r.url}";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = r.schedule;
-        Persistent = true;
+      value = {
+        description = "Timer for cloning/updating ${r.url}";
+        wantedBy = [ "timers.target" ];
+        unitConfig = {
+          OnCalendar = r.schedule;
+          Persistent = true;
+        };
       };
-    });
+    }) cfg.repositories);
   };
 }
