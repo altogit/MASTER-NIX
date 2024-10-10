@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.lib;
+with lib;
 
 let
   cfg = config.services.githubClone;
