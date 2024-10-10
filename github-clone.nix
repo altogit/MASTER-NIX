@@ -82,7 +82,7 @@ in
         wants = [ "network-online.target" ];
         serviceConfig = {
           Type = "oneshot";
-          User = repo.user;
+          User = ${userSettings.username};
           Environment = [
             #"GITHUB_TOKEN_FILE=/etc/${repo.name}"
             "GITHUB_TOKEN=${userSettings.gitHubPAT}"
