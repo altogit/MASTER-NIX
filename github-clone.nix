@@ -48,7 +48,7 @@ in
 
     # Systemd services
     systemd.services = listToAttrs (map (repo: {
-      name = "githubClone-${repo.name}.service";
+      name = "githubClone-${repo.name}";
       value = {
         description = "Clone or update Git repository ${repo.url}";
         after = [ "network-online.target" ];
@@ -96,7 +96,7 @@ in
 
     # Systemd timers
     systemd.timers = listToAttrs (map (repo: {
-      name = "githubClone-${repo.name}.timer";
+      name = "githubClone-${repo.name}";
       value = {
         description = "Timer for cloning/updating ${repo.url}";
         wantedBy = [ "timers.target" ];
