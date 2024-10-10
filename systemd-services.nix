@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ config, pkgs, userSettings, systemSettings, ... }:
 
 {
   systemd.services.updateFlakeRepo = {
