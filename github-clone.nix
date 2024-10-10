@@ -1,6 +1,6 @@
-{ config, nixlib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
-with nixlib;
+with config.lib;
 
 let
   cfg = config.services.githubClone;

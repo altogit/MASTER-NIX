@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, unstablep, pkgs-18, userSettings, systemSettings, nixlib, ... }:
+{ config, pkgs, unstablep, pkgs-18, userSettings, systemSettings, ... }:
 
 {
   imports =
@@ -143,7 +143,7 @@
         destination = "/home/alto/Ansible";
         user = "${userSettings.gitHubUser}";
         schedule = "*-*-* 16:00:00";  # Run at 4pm every day.
-        token = nixlib.mkSecret "${userSettings.gitHubPAT}";
+        token = config.lib.mkSecret "${userSettings.gitHubPAT}";
       }
     ];
   };  

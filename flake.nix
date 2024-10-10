@@ -34,7 +34,7 @@
               config.allowUnfree = true;
             };
             inherit userSettings systemSettings;
-            inherit (import <nixos/lib>) nixlib;
+            #inherit (import <nixos/lib>) nixlib;
           };
           modules = [
             ./configuration.nix
