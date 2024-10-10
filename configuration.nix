@@ -99,7 +99,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
-    brave
+    unstablep.brave
     docker_27
     docker-compose
     zip
