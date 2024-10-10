@@ -10,7 +10,6 @@
   outputs = inputs@{ self, nixpkgs, oldpkgs, unstablepkgs}:
     let
       lib = nixpkgs.lib;
-      
       userSettings = {
         username = "alto";
         name = "Alto";
@@ -32,8 +31,7 @@
               system = systemSettings.system;
               config.allowUnfree = true;
             };
-            userSettings = userSettings;
-            systemSettings = systemSettings;
+            inherit userSettings systemSettings;
           };
           modules = [
             ./configuration.nix
