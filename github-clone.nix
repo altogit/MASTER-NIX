@@ -65,10 +65,6 @@ in
           ];
           ExecStart = ''
             set -e
-
-            # Read the GitHub token
-            #GITHUB_TOKEN=$(cat "$GITHUB_TOKEN_FILE")
-
             # Prepare the URL with the token included
             AUTHENTICATED_URL="https://${repo.user}:${GITHUB_TOKEN}@${repo.url}"
 
@@ -80,13 +76,13 @@ in
               echo "Updating repository at ${repo.destination}"
 
               # Update the remote URL to include the token
-              $GIT -C "${repo.destination}" remote set-url origin "${AUTHENTICATED_URL}"
+              $GIT -C "${repo.destination}" remote set-url origin "$AUTHENTICATED_URL"
 
               # Pull with rebase
               $GIT -C "${repo.destination}" pull --rebase
             else
               echo "Cloning repository ${MASKED_URL} into ${repo.destination}"
-              $GIT clone "${AUTHENTICATED_URL}" "${repo.destination}"
+              $GIT clone "$AUTHENTICATED_URL" "${repo.destination}"
             fi
 
             # Reset the remote URL to remove the token after pulling
