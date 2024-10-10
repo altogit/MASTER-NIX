@@ -66,7 +66,7 @@ in
             "REPO_DESTINATION=${repo.destination}"
           ];
           ExecStart = ''
-          #!/bin/sh -C '
+          #!/run/current-system/sw/bin/sh -C '
           set -e
           # Prepare the URL with the token included
           AUTHENTICATED_URL="https://$repo.user:$GITHUB_TOKEN@$repo.url"
