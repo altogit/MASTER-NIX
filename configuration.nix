@@ -8,7 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./systemd-services.nix
+     # ./systemd-services.nix
+      ./github-clone.nix
     ];
 
   # Bootloader configuration
@@ -132,4 +133,18 @@
   virtualisation.docker.enable = true;
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
+
+  services.githubClone = {
+    enable = true;
+    repositories = [
+      {
+        name = "Ansible";
+        url = "github.com/${userSettings.gitHubUser}/ansible";
+        destination = "/home/alto/Ansible";
+        user = "${userSettings.gitHubUser}";
+        schedule = "*-*-* 16:00:00";  # Run at 4pm every day.
+        token = lib.mkSecret "${userSettings.gitHubPAT}";
+      }
+    ];
+  };  
 }
