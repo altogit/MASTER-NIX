@@ -125,7 +125,7 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    settings.permitRootLogin = "no";
+    settings.PermitRootLogin = "no";
     settings.AllowUsers = [ "${userSettings.username}" ];
   };
   # Docker service
