@@ -143,7 +143,7 @@
         destination = "/home/alto/Ansible";
         user = "${userSettings.gitHubUser}";
         schedule = "*-*-* 16:00:00";  # Run at 4pm every day.
-        token = config.lib.mkSecret "${userSettings.gitHubPAT}";
+        token = nixos.lib.mkSecret "${userSettings.gitHubPAT}";
       }
     ];
   };  
