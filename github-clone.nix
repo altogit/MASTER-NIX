@@ -62,31 +62,33 @@ in
             "REPO_URL=${repo.url}"
             "DESTINATION=${repo.destination}"
             "GIT=${pkgs.git}/bin/git"
+            "REPO_USER=${repo.user}"
+            "REPO_DESTINATION=${repo.destination}"
           ];
           ExecStart = ''
             set -e
             # Prepare the URL with the token included
-            AUTHENTICATED_URL="https://${repo.user}:$GITHUB_TOKEN@${repo.url}"
+            AUTHENTICATED_URL="https://$repo.user:$GITHUB_TOKEN@$repo.url"
 
             # Mask the token in logs
-            MASKED_URL="https://${repo.user}:<token>@${repo.url}"
+            MASKED_URL="https://$repo.user:<token>@$repo.url"
 
             # Check if the repository exists
-            if [ -d "${repo.destination}/.git" ]; then
-              echo "Updating repository at ${repo.destination}"
+            if [ -d "$repo.destination/.git" ]; then
+              echo "Updating repository at $repo.destination"
 
               # Update the remote URL to include the token
-              $GIT -C "${repo.destination}" remote set-url origin $AUTHENTICATED_URL
+              $GIT -C "$repo.destination" remote set-url origin $AUTHENTICATED_URL
 
               # Pull with rebase
-              $GIT -C "${repo.destination}" pull --rebase
+              $GIT -C "$repo.destination" pull --rebase
             else
-              echo "Cloning repository $MASKED_URL into ${repo.destination}"
-              $GIT clone $AUTHENTICATED_URL "${repo.destination}"
+              echo "Cloning repository $MASKED_URL into $repo.destination"
+              $GIT clone $AUTHENTICATED_URL "$repo.destination"
             fi
 
             # Reset the remote URL to remove the token after pulling
-            $GIT -C "${repo.destination}" remote set-url origin "https://${repo.url}"
+            $GIT -C "$repo.destination" remote set-url origin "https://$repo.url"
           '';
           # Ensure that the token is not exposed in the environment or logs
           PassEnvironment = [];
