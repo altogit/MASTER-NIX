@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
+{ config, nixlib, pkgs, ... }:
 
-with lib;
+with nixlib;
 
 let
   cfg = config.services.githubClone;
 in
 {
+
   ###### Module Options ######
 
   options.services.githubClone = {
@@ -33,28 +34,31 @@ in
 
   config = mkIf cfg.enable {
 
-    # Secrets handling
-    services.githubClone.secrets = listToAttrs (map (r: {
-      name = r.name;
+    # Secrets handling: Write the token to a file in /etc with restricted permissions
+    environment.etc = genAttrs cfg.repositories (repo: {
+      inherit (repo) name;
       value = {
-        source = r.token;
+        text = repo.token;
+        mode = "0600";
+        user = "${userSettings.username}";
+        group = "${userSettings.username}";
       };
-    }) cfg.repositories);
+    });
 
     # Systemd services
-    systemd.services = listToAttrs (map (r: {
-      name = "githubClone-${r.name}.service";
+    systemd.services = genAttrs cfg.repositories (repo: {
+      name = "githubClone-${repo.name}.service";
       value = {
-        description = "Clone or update Git repository ${r.url}";
+        description = "Clone or update Git repository ${repo.url}";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
         serviceConfig = {
           Type = "oneshot";
-          User = r.user;
+          User = repo.user;
           Environment = [
-            "GITHUB_TOKEN_FILE=${config.services.githubClone.secrets.${r.name}.path}"
-            "REPO_URL=${r.url}"
-            "DESTINATION=${r.destination}"
+            "GITHUB_TOKEN_FILE=/etc/${repo.name}"
+            "REPO_URL=${repo.url}"
+            "DESTINATION=${repo.destination}"
             "GIT=${pkgs.git}/bin/git"
           ];
           ExecStart = ''
@@ -64,45 +68,45 @@ in
             GITHUB_TOKEN=$(cat "$GITHUB_TOKEN_FILE")
 
             # Prepare the URL with the token included
-            AUTHENTICATED_URL="https://${r.user}:${GITHUB_TOKEN}@${r.url}"
+            AUTHENTICATED_URL="https://${repo.user}:${GITHUB_TOKEN}@${repo.url}"
 
             # Mask the token in logs
-            MASKED_URL="https://${r.user}:<token>@${r.url}"
+            MASKED_URL="https://${repo.user}:<token>@${repo.url}"
 
             # Check if the repository exists
-            if [ -d "${r.destination}/.git" ]; then
-              echo "Updating repository at ${r.destination}"
+            if [ -d "${repo.destination}/.git" ]; then
+              echo "Updating repository at ${repo.destination}"
 
               # Update the remote URL to include the token
-              $GIT -C "${r.destination}" remote set-url origin "${AUTHENTICATED_URL}"
+              $GIT -C "${repo.destination}" remote set-url origin "${AUTHENTICATED_URL}"
 
               # Pull with rebase
-              $GIT -C "${r.destination}" pull --rebase
+              $GIT -C "${repo.destination}" pull --rebase
             else
-              echo "Cloning repository ${MASKED_URL} into ${r.destination}"
-              $GIT clone "${AUTHENTICATED_URL}" "${r.destination}"
+              echo "Cloning repository ${MASKED_URL} into ${repo.destination}"
+              $GIT clone "${AUTHENTICATED_URL}" "${repo.destination}"
             fi
 
             # Reset the remote URL to remove the token after pulling
-            $GIT -C "${r.destination}" remote set-url origin "https://${r.url}"
+            $GIT -C "${repo.destination}" remote set-url origin "https://${repo.url}"
           '';
           # Ensure that the token is not exposed in the environment or logs
           PassEnvironment = [];
         };
       };
-    }) cfg.repositories);
+    });
 
     # Systemd timers
-    systemd.timers = listToAttrs (map (r: {
-      name = "githubClone-${r.name}.timer";
+    systemd.timers = genAttrs cfg.repositories (repo: {
+      name = "githubClone-${repo.name}.timer";
       value = {
-        description = "Timer for cloning/updating ${r.url}";
+        description = "Timer for cloning/updating ${repo.url}";
         wantedBy = [ "timers.target" ];
-        unitConfig = {
-          OnCalendar = r.schedule;
+        timerConfig = {
+          OnCalendar = repo.schedule;
           Persistent = true;
         };
       };
-    }) cfg.repositories);
+    });
   };
 }
