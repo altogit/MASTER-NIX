@@ -4,6 +4,7 @@ with lib;
 
 let
   cfg = config.services.githubClone;
+  GITHUB_TOKEN = "${userSettings.gitHubPAT}"
 in
 {
 
@@ -57,7 +58,7 @@ in
           User = repo.user;
           Environment = [
             #"GITHUB_TOKEN_FILE=/etc/${repo.name}"
-            "GITHUB_TOKEN=${userSettings.gitHubPAT}"
+            "GITHUB_TOKEN=${GITHUB_TOKEN}"
             "REPO_URL=${repo.url}"
             "DESTINATION=${repo.destination}"
             "GIT=${pkgs.git}/bin/git"
