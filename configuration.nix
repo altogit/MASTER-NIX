@@ -132,16 +132,4 @@
   virtualisation.docker.enable = true;
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
-
-
-  # X11 and GNOME configuration
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    xkb = {
-      layout = "au";
-      variant = "";
-    };
-  };
 }
