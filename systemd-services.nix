@@ -7,7 +7,7 @@
     wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.git}/bin/git pull";
+      ExecStart = "${pkgs.git}/bin/git pull --rebase";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Flake";
     };
@@ -28,7 +28,7 @@
     wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.git}/bin/git pull";
+      ExecStart = "${pkgs.git}/bin/git pull --rebase";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible";
     };
