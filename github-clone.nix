@@ -64,7 +64,7 @@ in
             "GIT=${pkgs.git}/bin/git"
             "REPO_USER=${repo.user}"
             "REPO_DESTINATION=${repo.destination}"
-            "SH=${pkgs.sh}/bin/sh"
+            "SH=${pkgs.bsh}/bin/sh"
           ];
           ExecStart = ''
           SH -C '
