@@ -35,18 +35,18 @@ in
   config = mkIf cfg.enable {
 
     # Secrets handling: Write the token to a file in /etc with restricted permissions
-    environment.etc = genAttrs cfg.repositories (repo: {
-      inherit (repo) name;
+    environment.etc = listToAttrs (map (repo: {
+      name = repo.name;
       value = {
-        text = repo.token;
+        source = repo.token;
         mode = "0600";
-        user = "${userSettings.username}";
-        group = "${userSettings.username}";
+        user = repo.user;
+        group = repo.user;
       };
-    });
+    }) cfg.repositories);
 
     # Systemd services
-    systemd.services = genAttrs cfg.repositories (repo: {
+    systemd.services = listToAttrs (map (repo: {
       name = "githubClone-${repo.name}.service";
       value = {
         description = "Clone or update Git repository ${repo.url}";
@@ -94,10 +94,10 @@ in
           PassEnvironment = [];
         };
       };
-    });
+    }) cfg.repositories);
 
     # Systemd timers
-    systemd.timers = genAttrs cfg.repositories (repo: {
+    systemd.timers = listToAttrs (map (repo: {
       name = "githubClone-${repo.name}.timer";
       value = {
         description = "Timer for cloning/updating ${repo.url}";
@@ -107,6 +107,6 @@ in
           Persistent = true;
         };
       };
-    });
+    }) cfg.repositories);
   };
 }
