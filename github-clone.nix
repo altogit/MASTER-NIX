@@ -71,24 +71,19 @@ in
           set -e
           # Prepare the URL with the token included
           AUTHENTICATED_URL=https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL
-
           # Mask the token in log
           MASKED_URL=https://$REPO_URL:<token>@$REPO_URL
-
           # Check if the repository exists
           if [ -d $REPO_DESTINATION/.git ]; then
             echo Updating repository at $REPO_DESTINATION
-
             # Update the remote URL to include the token
             $GIT -C $REPO_DESTINATION remote set-url origin $AUTHENTICATED_URL
-
             # Pull with rebase
             $GIT -C $REPO_DESTINATION pull --rebase
           else
             echo Cloning repository $MASKED_URL into $REPO_DESTINATION
             $GIT clone $AUTHENTICATED_URL $REPO_DESTINATION
           fi
-
           # Reset the remote URL to remove the token after pulling
           $GIT -C $REPO_DESTINATION remote set-url origin https://$REPO_URL
           '
