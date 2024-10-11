@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, unstablep, pkgs-18, userSettings, systemSettings, ... }:
+{ config, pkgs, unstablep, pkgs-18, userSettings, systemSettings, lib, ... }:
 
 {
   imports =
