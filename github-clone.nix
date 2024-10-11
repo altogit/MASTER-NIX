@@ -68,7 +68,7 @@ in
             "REPO_DESTINATION=${repo.destination}"
             "SH=${pkgs.bash}/bin/sh"
           ];
-          ExecStart = ''/run/current-system/sw/bin/sh -c "echo the user $REPO_USER"'';
+          ExecStart = ''SH -c "echo the user $REPO_USER"'';
           # Ensure that the token is not exposed in the environment or logs
           PassEnvironment = [];
         };
