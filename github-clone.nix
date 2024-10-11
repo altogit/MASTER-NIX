@@ -67,7 +67,7 @@ in
             "SH=${pkgs.bsh}/bin/sh"
           ];
           ExecStart = ''
-          SH -c "
+          $SH -c "
           set -e
           # Prepare the URL with the token included
           AUTHENTICATED_URL=https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL
