@@ -138,7 +138,7 @@
     ${pkgs.bash}/bin/sh -c " set -e; \
     echo "Authenticating GitHub CLI using PAT"; \
     echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
-    ${pkgs.gh}/bin/gh status; \
+    ${pkgs.gh}/bin/gh auth status; \
     ${pkgs.gh}/bin/gh auth setup-git; \
   '';
 
