@@ -56,6 +56,8 @@ in
         serviceConfig = {
           Type = "oneshot";
           User = "${userSettings.username}";
+          StandardOutput = "journal";
+          StandardError = "journal";
           Environment = [
             #"GITHUB_TOKEN_FILE=/etc/${repo.name}"
             "GITHUB_TOKEN=${userSettings.gitHubPAT}"
