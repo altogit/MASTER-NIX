@@ -157,7 +157,7 @@
 
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
-        PAT_FILE="/home/${USERNAME}/ghpat"
+        PAT_FILE="/home/$USERNAME/ghpat"
 
         echo "Creating PAT file at $PAT_FILE"
         echo "${userSettings.gitHubPAT}" > "$PAT_FILE"
