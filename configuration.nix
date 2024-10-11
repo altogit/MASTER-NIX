@@ -167,7 +167,7 @@
 
         
         echo "=== GitHub CLI Authentication Completed ==="
-        echo "=== You need to run 'GH auth setup-git' ==="
+        echo "=== You need to run "GH auth setup-git" ==="
       } | tee -a "$LOGFILE" 2>&1
     '
   '';
