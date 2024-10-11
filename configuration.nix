@@ -158,17 +158,12 @@
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
         PAT_FILE="${userSettings.gitHubPAT-File}"
-
         echo "Authenticating GitHub CLI using PAT file..."
         $GH auth login --with-token < $PAT_FILE
-
         echo "Checking GitHub CLI authentication status..."
         $GH auth status
-
-        echo "Setting up Git configuration for GitHub CLI..."
-        $GH auth setup-git
-
         echo "=== GitHub CLI Authentication Completed ==="
+        echo "=== You need to run 'GH auth setup-git' ==="
       } | tee -a "$LOGFILE" 2>&1
     '
   '';
