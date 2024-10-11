@@ -4,6 +4,8 @@
 
 { config, pkgs, lib, unstablep, pkgs-18, userSettings, systemSettings, ... }:
 
+ with lib;
+
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -134,7 +136,7 @@
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
 
-  system.activationScripts.authenticateGH = config.lib.mkAfter ''
+  system.activationScripts.authenticateGH = lib.mkAfter ''
     ${pkgs.bash}/bin/sh -c " set -e; \
     echo "Authenticating GitHub CLI using PAT"; \
     echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
