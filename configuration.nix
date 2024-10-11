@@ -141,7 +141,8 @@
     echo "Authenticating GitHub CLI using PAT"; \
     echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
     ${pkgs.gh}/bin/gh auth status; \
-    ${pkgs.gh}/bin/gh auth setup-git; \
+    ${pkgs.gh}/bin/gh auth setup-git;
+    "
   '';
 
   services.githubClone = {
