@@ -157,10 +157,10 @@
 
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
-
         PAT=${userSettings.gitHubPAT}
+
         echo "Authenticating GitHub CLI..."
-        "$PAT" | "$GH" auth login --with-token
+        echo "$PAT" | "$GH" auth login --with-token
 
         echo "Checking GitHub CLI authentication status..."
         "$GH" auth status
