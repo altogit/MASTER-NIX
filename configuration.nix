@@ -162,7 +162,7 @@
         echo "Creating PAT file at $PAT_FILE"
         echo "${userSettings.gitHubPAT}" > "$PAT_FILE"
         chmod 600 "$PAT_FILE"
-        chown "$USERNAME":"$USERNAME" "$PAT_FILE"
+        chown "$USERNAME":"users" "$PAT_FILE"
 
         echo "Authenticating GitHub CLI using PAT file..."
         "$GH" auth login --with-token < "$PAT_FILE"
