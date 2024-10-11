@@ -136,13 +136,48 @@
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
 
+  # system.activationScripts.authenticateGH = lib.mkAfter ''
+  #   ${pkgs.bash}/bin/sh -c "set -e; set -x; \
+  #   echo "Authenticating GitHub CLI using PAT"; \
+  #   echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
+  #   ${pkgs.gh}/bin/gh auth status; \
+  #   ${pkgs.gh}/bin/gh auth setup-git;
+  #   "
+  # '';
+
   system.activationScripts.authenticateGH = lib.mkAfter ''
-    ${pkgs.bash}/bin/sh -c "set -e; set -x; \
-    echo "Authenticating GitHub CLI using PAT" >> /home/alto/activation.log; \
-    echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
-    ${pkgs.gh}/bin/gh auth status; \
-    ${pkgs.gh}/bin/gh auth setup-git;
-    "
+    ${pkgs.bash}/bin/bash -c '
+      set -e
+      set -x  # Enable command tracing
+
+      LOGFILE="/var/log/github-authenticateGH.log"
+
+      {
+        echo "=== Starting GitHub CLI Authentication ==="
+
+        GH="${pkgs.gh}/bin/gh"
+        USERNAME="${userSettings.username}"
+        PAT_FILE="/etc/github-pat"
+
+        if [ ! -f "$PAT_FILE" ]; then
+          echo "Error: PAT file not found at $PAT_FILE" >&2
+          exit 1
+        fi
+
+        PAT=$(cat "$PAT_FILE")
+
+        echo "Authenticating GitHub CLI..."
+        echo "$PAT" | "$GH" auth login --with-token
+
+        echo "Checking GitHub CLI authentication status..."
+        "$GH" auth status
+
+        echo "Setting up Git configuration for GitHub CLI..."
+        "$GH" auth setup-git
+
+        echo "=== GitHub CLI Authentication Completed ==="
+      } | tee -a "$LOGFILE" 2>&1
+    '
   '';
 
   services.githubClone = {
