@@ -69,7 +69,7 @@ in
           ];
           ExecStart = ''
           ${pkgs.bash}/bin/sh -c "set -e; \
-          AUTHENTICATED_URL=https://${REPO_USER}:${GITHUB_TOKEN}@${REPO_URL}; \
+          AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
           echo $AUTHENTICATED_URL; \
           MASKED_URL=https://$REPO_URL:<token>@$REPO_URL; \
           if [ -d $REPO_DESTINATION/.git ]; then \
