@@ -62,12 +62,12 @@ in
             #"GITHUB_TOKEN_FILE=/etc/${repo.name}"
           ];
           ExecStart = ''
-          export "GITHUB_TOKEN_file=${repo.token}"
-          export  "REPO_URL=${repo.url}"
-          export  "DESTINATION=${repo.destination}"
-          export  "GIT=${pkgs.git}/bin/git"
-          export  "REPO_USER=${repo.user}"
-          export  "REPO_DESTINATION=${repo.destination}"
+          "GITHUB_TOKEN_file=${repo.token}"
+          "REPO_URL=${repo.url}"
+          "DESTINATION=${repo.destination}"
+          "GIT=${pkgs.git}/bin/git"
+          "REPO_USER=${repo.user}"
+          "REPO_DESTINATION=${repo.destination}"
           ${pkgs.bash}/bin/sh -c "set -e; \
           echo The file location: $GITHUB_TOKEN_FILE; \
           GITHUB_TOKEN=$(cat $GITHUB_TOKEN_FILE); \
