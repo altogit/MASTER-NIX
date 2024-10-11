@@ -137,8 +137,8 @@
   services.qemuGuest.enable = true;
 
   system.activationScripts.authenticateGH = lib.mkAfter ''
-    ${pkgs.bash}/bin/sh -c " set -e; \
-    echo "Authenticating GitHub CLI using PAT"; \
+    ${pkgs.bash}/bin/sh -c "set -e; set -x; \
+    echo "Authenticating GitHub CLI using PAT" >> /home/alto/activation.log; \
     echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
     ${pkgs.gh}/bin/gh auth status; \
     ${pkgs.gh}/bin/gh auth setup-git;
