@@ -165,7 +165,7 @@
         chown "$USERNAME":"users" "$PAT_FILE"
 
         echo "Authenticating GitHub CLI using PAT file..."
-        "$GH" auth login --with-token < "$PAT_FILE"
+        cat $PAT_FILE | "$GH" auth login --with-token
 
         echo "Checking GitHub CLI authentication status..."
         "$GH auth status"
