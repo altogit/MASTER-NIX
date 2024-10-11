@@ -68,7 +68,7 @@ in
             "REPO_DESTINATION=${repo.destination}"
             "SH=${pkgs.bash}/bin/sh"
           ];
-          ExecStart = ''$SH -c "set -e; AUTHENTICATED_URL=https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL; MASKED_URL=https://$REPO_URL:<token>@$REPO_URL; if [ -d $REPO_DESTINATION/.git ]; then echo Updating repository at $REPO_DESTINATION; $GIT -C $REPO_DESTINATION remote set-url origin $AUTHENTICATED_URL; $GIT -C $REPO_DESTINATION pull --rebase; else echo Cloning repository $MASKED_URL into $REPO_DESTINATION; $GIT clone $AUTHENTICATED_URL $REPO_DESTINATION; fi; $GIT -C $REPO_DESTINATION remote set-url origin https://$REPO_URL"'';
+          ExecStart = ''$SH -c "echo Hello world"'';
           # Ensure that the token is not exposed in the environment or logs
           PassEnvironment = [];
         };
