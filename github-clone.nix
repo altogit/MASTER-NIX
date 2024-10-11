@@ -60,7 +60,7 @@ in
           StandardError = "journal";
           Environment = [
             #"GITHUB_TOKEN_FILE=/etc/${repo.name}"
-            "GITHUB_TOKEN=${userSettings.gitHubPAT}"
+            "GITHUB_TOKEN_file=${repo.token}"
             "REPO_URL=${repo.url}"
             "DESTINATION=${repo.destination}"
             "GIT=${pkgs.git}/bin/git"
@@ -69,6 +69,7 @@ in
           ];
           ExecStart = ''
           ${pkgs.bash}/bin/sh -c "set -e; \
+          GITHUB_TOKEN=$(cat $GITHUB_TOKEN_FILE); \
           AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
           echo $AUTHENTICATED_URL; \
           MASKED_URL=https://$REPO_URL:<token>@$REPO_URL; \
