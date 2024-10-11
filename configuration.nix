@@ -157,15 +157,8 @@
 
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
-        PAT_FILE="/etc/github-pat"
 
-        if [ ! -f "$PAT_FILE" ]; then
-          echo "Error: PAT file not found at $PAT_FILE" >&2
-          exit 1
-        fi
-
-        PAT=$(cat "$PAT_FILE")
-
+        PAT=${userSettings.gitHubPAT}
         echo "Authenticating GitHub CLI..."
         echo "$PAT" | "$GH" auth login --with-token
 
