@@ -160,7 +160,7 @@
         PAT=${userSettings.gitHubPAT}
 
         echo "Authenticating GitHub CLI..."
-        echo $PAT | $GH auth login --with-token
+        echo \"\$PAT\" | $GH auth login --with-token
 
         echo "Checking GitHub CLI authentication status..."
         "$GH auth status"
