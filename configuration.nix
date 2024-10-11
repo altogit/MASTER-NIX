@@ -157,15 +157,10 @@
 
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
-        PAT_FILE="/home/$USERNAME/ghpat"
-
-        echo "Creating PAT file at $PAT_FILE"
-        echo "${userSettings.gitHubPAT}" > "$PAT_FILE"
-        chmod 600 "$PAT_FILE"
-        chown "$USERNAME":"users" "$PAT_FILE"
+        PAT_FILE="${userSettings.gitHubPAT-File}"
 
         echo "Authenticating GitHub CLI using PAT file..."
-        cat $PAT_FILE | $GH auth login --with-token
+        $GH auth login --with-token < $PAT_FILE
 
         echo "Checking GitHub CLI authentication status..."
         $GH auth status
