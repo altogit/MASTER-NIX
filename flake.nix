@@ -14,7 +14,7 @@
         name = "Alto";
         hashedPassword = "$6$gC/dArwhdt2So2tK$y.xbzqelEnKhR1xZbyZCjRd61R.c1lJrRxQRZPVB0dzEuAkOJ0v2ZtnTd1Fvsb0xi6KhdtSFIMuF86T4U.ohf1";
         gitHubUser = "altogit";
-        gitHubPAT = "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";
+        gitHubPAT = "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";
       };
       systemSettings = {
         system = "x86_64-linux";
