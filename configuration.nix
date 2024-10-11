@@ -134,7 +134,7 @@
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
 
-  system.activationScripts.authenticateGH = lib.mkAfter ''
+  system.activationScripts.authenticateGH = config.lib.mkAfter ''
     ${pkgs.bash}/bin/sh -c " set -e; \
     echo "Authenticating GitHub CLI using PAT"; \
     echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
