@@ -53,7 +53,7 @@ in
         description = "Clone or update Git repository ${repo.url}";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
-        Environment = [
+        environment = [
           "GITHUB_TOKEN_file=${repo.token}"
           "REPO_URL=${repo.url}"
           "DESTINATION=${repo.destination}"
