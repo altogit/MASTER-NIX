@@ -53,12 +53,7 @@ in
         description = "Clone or update Git repository ${repo.url}";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
-        serviceConfig = {
-          Type = "oneshot";
-          User = "${userSettings.username}";
-          StandardOutput = "journal";
-          StandardError = "journal";
-          Environment = {
+        Environment = {
             #"GITHUB_TOKEN_FILE=/etc/${repo.name}"
           GITHUB_TOKEN_file=${repo.token};
           REPO_URL=${repo.url};
@@ -67,6 +62,11 @@ in
           REPO_USER=${repo.user};
           REPO_DESTINATION=${repo.destination};
           };
+        serviceConfig = {
+          Type = "oneshot";
+          User = "${userSettings.username}";
+          StandardOutput = "journal";
+          StandardError = "journal";
           ExecStart = ''
 
           ${pkgs.bash}/bin/sh -c "set -e; \
