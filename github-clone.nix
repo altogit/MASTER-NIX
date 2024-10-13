@@ -60,11 +60,11 @@ in
         wants = [ "network-online.target" ];
         environment = {
           GITHUB_TOKEN_FILE="${repo.token}";
-          REPO_URL=${repo.url};
-          DESTINATION=${repo.destination};
-          GIT=${pkgs.git}/bin/git;
-          REPO_USER=${repo.user};
-          REPO_DESTINATION=${repo.destination};
+          REPO_URL="${repo.url}";
+          DESTINATION="${repo.destination}";
+          GIT="${pkgs.git}/bin/git";
+          REPO_USER="${repo.user}";
+          REPO_DESTINATION="${repo.destination}";
         };
         serviceConfig = {
           Type = "oneshot";
