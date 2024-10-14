@@ -1,48 +1,6 @@
 { config, pkgs, userSettings, systemSettings, ... }:
 
 {
-  systemd.services.updateFlakeRepo = {
-    description = "Update Flake Repository";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.git}/bin/git pull --rebase";
-      User = userSettings.username;
-      WorkingDirectory = "/home/${userSettings.username}/Flake";
-    };
-  };
-  systemd.timers.updateFlakeRepo = {
-    description = "Timer for updateFlakeRepo.service";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "10min";
-      OnUnitActiveSec = "6h";
-      Persistent = true;
-    };
-  };
-
-  systemd.services.updateAnsibleRepo = {
-    description = "Update Ansible Repository";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.git}/bin/git pull --rebase";
-      User = userSettings.username;
-      WorkingDirectory = "/home/${userSettings.username}/Ansible";
-    };
-  };
-  systemd.timers.updateAnsibleRepo = {
-    description = "Timer for updateAnsibleRepo.service";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "10min";
-      OnUnitActiveSec = "1h 30min";
-      Persistent = true;
-    };
-  };
-
   systemd.services.nixosRebuild = {
     description = "Rebuild NixOS Configuration";
     after = [ "network-online.target" ];
