@@ -159,7 +159,7 @@
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
         PAT_FILE="${userSettings.gitHubPAT-File}"
-        SU="${pkgs.su}/bin/su"
+        SU="/run/wrappers/bin/su"
 
         echo SU: $SU
         echo GH: $GH
