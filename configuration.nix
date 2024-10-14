@@ -117,6 +117,7 @@
     ansible
     gh
     openssh
+    su
   ];
 
   # NixOS version
