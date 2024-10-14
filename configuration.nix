@@ -160,8 +160,11 @@
         PAT_FILE="${userSettings.gitHubPAT-File}"
         SU="${pkgs.su}/bin/su"
 
+        echo SU: $SU
+        echo GH: $GH
+        echo 
         echo "Authenticating GitHub CLI using PAT file..."
-        SU - $USERNAME  -c $GH auth login --with-token < $PAT_FILE
+        su - $USERNAME  -c $GH auth login --with-token < $PAT_FILE
 
         echo "Checking GitHub CLI authentication status..."
         $GH auth status
