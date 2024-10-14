@@ -72,9 +72,9 @@ in
           StandardError = "journal";
           ExecStart = ''${pkgs.bash}/bin/sh -c "set -e; \
           GITHUB_TOKEN=$(cat $GITHUB_TOKEN_FILE); \
-          echo the token: \"$GITHUB_TOKEN\"; \
+          echo GHAPI token: \"$GITHUB_TOKEN\"; \
           AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
-          echo $AUTHENTICATED_URL; \
+          echo Authenticated URL: $AUTHENTICATED_URL; \
           MASKED_URL=https://$REPO_URL:token@$REPO_URL; \
           if [ -d $REPO_DESTINATION/.git ]; then \
             echo Updating repository at $REPO_DESTINATION; \
