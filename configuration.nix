@@ -155,6 +155,8 @@
 
       {
         echo "=== Starting GitHub CLI Authentication ==="
+        timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+        echo "$timestamp"
 
         GH="${pkgs.gh}/bin/gh"
         USERNAME="${userSettings.username}"
