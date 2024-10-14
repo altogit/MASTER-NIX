@@ -59,7 +59,7 @@ in
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
         environment = {
-          #GITHUB_TOKEN_FILE="${repo.token}";
+          GITHUB_TOKEN_FILE="${repo.token}";
           REPO_URL="${repo.url}";
           GIT="${pkgs.git}/bin/git";
           REPO_USER="${repo.user}";
@@ -70,10 +70,8 @@ in
           User = "${userSettings.username}";
           StandardOutput = "journal";
           StandardError = "journal";
-          ExecStart = ''
-
-          ${pkgs.bash}/bin/sh -c "set -e; \
-          GITHUB_TOKEN=$(cat /home/alto/GH/ghapi); \
+          ExecStart = ''${pkgs.bash}/bin/sh -c "set -e; \
+          GITHUB_TOKEN=$(cat $GITHUB_TOKEN_FILE); \
           echo the token: \"$GITHUB_TOKEN\"; \
           AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
           echo $AUTHENTICATED_URL; \
