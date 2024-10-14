@@ -164,13 +164,13 @@
         echo SU: $SU
         echo GH: $GH
         echo 
-        echo "Authenticating GitHub CLI using PAT file..."
+        echo "=== Authenticating GitHub CLI using PAT file... ==="
         $SU - $USERNAME  -c "$GH auth login --with-token < $PAT_FILE"
 
-        echo "Checking GitHub CLI authentication status..."
+        echo "=== Checking GitHub CLI authentication status... ==="
         $SU - $USERNAME -c "$GH auth status"
 
-        echo "Setting Git Authentication"
+        echo "=== Setting Git Authentication ==="
         $SU - $USERNAME -c "$GH auth setup-git"
 
         
