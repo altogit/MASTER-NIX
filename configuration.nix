@@ -168,7 +168,10 @@
         $SU - $USERNAME  -c "$GH auth login --with-token < $PAT_FILE"
 
         echo "Checking GitHub CLI authentication status..."
-        $GH auth status
+        $SU - $USERNAME -c "$GH auth status"
+
+        echo "Setting Git Authentication"
+        $SU - $USERNAME -c "$GH auth setup-git"
 
         
         echo "=== GitHub CLI Authentication Completed ==="
