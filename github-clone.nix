@@ -74,7 +74,6 @@ in
           ExecStart = ''
 
           ${pkgs.bash}/bin/sh -c "set -e; \
-          echo The file location: "$GITHUB_TOKEN_FILE"; \
           GITHUB_TOKEN=$(cat $GITHUB_TOKEN_FILE); \
           echo the token: \"$GITHUB_TOKEN\"; \
           AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
