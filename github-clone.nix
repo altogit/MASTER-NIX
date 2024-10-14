@@ -75,7 +75,7 @@ in
           echo the token: \"$GITHUB_TOKEN\"; \
           AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
           echo $AUTHENTICATED_URL; \
-          MASKED_URL=https://$REPO_URL:<token>@$REPO_URL; \
+          MASKED_URL=https://$REPO_URL:token@$REPO_URL; \
           if [ -d $REPO_DESTINATION/.git ]; then \
             echo Updating repository at $REPO_DESTINATION; \
             $GIT -C $REPO_DESTINATION remote set-url origin $AUTHENTICATED_URL; \
