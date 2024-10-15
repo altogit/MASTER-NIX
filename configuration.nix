@@ -192,7 +192,7 @@
         destiantion = "home/${userSettings.userName}/Flake";
         user = "${userSettings.gitHubUser}";
         schedule = "*-*-* 13:00:00";
-        token = "${userSettings.gitHunPAT-File}";
+        token = "${userSettings.gitHubPAT-File}";
       }
       {
         name = "Ansible";
