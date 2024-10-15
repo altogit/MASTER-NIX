@@ -10,7 +10,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-     # ./systemd-services.nix
+      ./systemd-services.nix
       ./github-clone.nix
     ];
 
@@ -118,6 +118,7 @@
     gh
     openssh
     su
+    bat
   ];
 
   # NixOS version
@@ -185,6 +186,14 @@
   services.githubClone = {
     enable = true;
     repositories = [
+      {
+        name = "MASTER-NIX";
+        url = "github.com/${userSettings.gitHubUser}/MASTER-NIX";
+        destiantion = "home/${userSettings.userName}/Flake";
+        user = "${userSettings.gitHubUser}";
+        schedule = "*-*-* 13:00:00";
+        toekn = "${userSettings.gitHunPAT-File}";
+      }
       {
         name = "Ansible";
         url = "github.com/${userSettings.gitHubUser}/ansible";
