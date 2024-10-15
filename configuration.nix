@@ -189,7 +189,7 @@
       {
         name = "MASTER-NIX";
         url = "github.com/${userSettings.gitHubUser}/MASTER-NIX";
-        destiantion = "home/${userSettings.userName}/Flake";
+        destination = "home/${userSettings.userName}/Flake";
         user = "${userSettings.gitHubUser}";
         schedule = "*-*-* 13:00:00";
         token = "${userSettings.gitHubPAT-File}";
