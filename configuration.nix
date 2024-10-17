@@ -119,6 +119,10 @@
     openssh
     su
     bat
+    zoxide
+    lzf
+    dust
+    atuin
   ];
 
   # NixOS version
