@@ -9,6 +9,8 @@
 
   outputs = inputs@{ self, nixpkgs, oldpkgs, unstablepkgs}:
     let
+      # This is the user settings variables that can be accessed anywhere in the config files
+      # To minimise places you need to change things, ie. if you want a different username cjust change it here.
       userSettings = {
         username = "alto";
         name = "Alto";
@@ -16,6 +18,7 @@
         gitHubUser = "altogit";
         gitHubPAT-File = "/home/alto/GH/ghapi";
       };
+      # Same as above but just for systemSettings.
       systemSettings = {
         system = "x86_64-linux";
         hostname = "MASTER-NIX";
@@ -23,8 +26,11 @@
       };
     in {
       nixosConfigurations = {
+        # MASTER-NIX configuration, the only thing that this Flake will be used for. 
+        # You could add more, point them to different config files and use them as 'profiles'.
         MASTER-NIX = nixpkgs.lib.nixosSystem rec {
           specialArgs = {
+            # Importing our inputs from above into the MASTER-NIX system.
             pkgs-18 = import oldpkgs {
               system = systemSettings.system;
               config.allowUnfree = true;
@@ -33,10 +39,11 @@
               system = systemSettings.system;
               config.allowUnfree = true;
             };
+            # Importing our variables above into the MASTER-NIX system.
             inherit userSettings systemSettings;
-            #inherit (import <nixos/lib>) nixlib;
           };
           modules = [
+            # List of the config files this profile needs.
             ./configuration.nix
           ];
         };

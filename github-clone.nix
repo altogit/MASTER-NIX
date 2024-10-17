@@ -3,8 +3,8 @@
 with lib;
 
 let
+  # Fetching the data set in 'services.githubClone' in 'configuration.nix'
   cfg = config.services.githubClone;
-  #GITHUB_TOKEN = "${userSettings.gitHubPAT}";
 in
 {
 
@@ -34,16 +34,6 @@ in
   ###### Module Configuration ######
 
   config = mkIf cfg.enable {
-    # Secrets handling: Write the token to a file in /etc with restricted permissions
-    # environment.etc = listToAttrs (map (repo: {
-    #   name = repo.name;
-    #   value = {
-    #     source = repo.token;
-    #     mode = "0600";
-    #     user = repo.user;
-    #     group = repo.user;
-    #   };
-    # }) cfg.repositories);
     # Ensure the GitHub CLI and necessary tools are installed
     environment.systemPackages = with pkgs; [
       gh
@@ -51,7 +41,7 @@ in
       bash
       # Add other necessary packages here
     ];
-    # Systemd services
+    # Systemd service setup using the provided info.
     systemd.services = listToAttrs (map (repo: {
       name = "githubClone-${repo.name}";
       value = {
@@ -70,11 +60,13 @@ in
           User = "${userSettings.username}";
           StandardOutput = "journal";
           StandardError = "journal";
+          # This is the script inserted into the systemd service. 
+          # When run it will build the authenticated URL and
+          # then do a git clone or git pull on the repo.
           ExecStart = ''${pkgs.bash}/bin/sh -c "set -e; \
           GITHUB_TOKEN=$(cat $GITHUB_TOKEN_FILE); \
           echo GHAPI token: \"$GITHUB_TOKEN\"; \
           AUTHENTICATED_URL="https://$REPO_USER:$GITHUB_TOKEN@$REPO_URL"; \
-          echo Authenticated URL: $AUTHENTICATED_URL; \
           MASKED_URL=https://$REPO_URL:token@$REPO_URL; \
           echo Masked URL: $MASKED_URL; \
           if [ -d $REPO_DESTINATION/.git ]; then \
@@ -93,7 +85,7 @@ in
       };
     }) cfg.repositories);
 
-    # Systemd timers
+    # Systemd timer setup, based on the setting you configured. This timer is what starts the service.
     systemd.timers = listToAttrs (map (repo: {
       name = "githubClone-${repo.name}";
       value = {

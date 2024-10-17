@@ -138,15 +138,8 @@
   # Qemu guest agent for proxmox
   services.qemuGuest.enable = true;
 
-  # system.activationScripts.authenticateGH = lib.mkAfter ''
-  #   ${pkgs.bash}/bin/sh -c "set -e; set -x; \
-  #   echo "Authenticating GitHub CLI using PAT"; \
-  #   echo ${userSettings.gitHubPAT} | ${pkgs.gh}/bin/gh auth login --with-token; \
-  #   ${pkgs.gh}/bin/gh auth status; \
-  #   ${pkgs.gh}/bin/gh auth setup-git;
-  #   "
-  # '';
-
+# This is the activation script that runs at the end of a Nixos rebuild command. It will login
+# to the GH cli tool. And use that as an Authentication helper for 'git'.
   system.activationScripts.authenticateGH = lib.mkAfter ''
     ${pkgs.bash}/bin/bash -c '
       set -e
@@ -182,7 +175,8 @@
       } | tee -a "$LOGFILE" 2>&1
     '
   '';
-
+# This section is the configuration for the github clone services. You can see exactly
+# what is being done in the file 'githu-clone.nix'
   services.githubClone = {
     enable = true;
     repositories = [
