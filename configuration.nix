@@ -120,7 +120,7 @@
     su
     bat
     zoxide
-    lzf
+    fzf
     dust
     atuin
   ];
