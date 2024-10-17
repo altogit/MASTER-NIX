@@ -1,13 +1,14 @@
 { config, pkgs, userSettings, systemSettings, ... }:
 
 {
+  # Service that runs the nix rebuild command daily, to make sure the system is current with the flake files.
   systemd.services.nixosRebuild = {
     description = "Rebuild NixOS Configuration";
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.nix}/bin/nixos-rebuild switch --flake ./#${systemSettings.hostname}";
+      ExecStart = "sudo ${pkgs.nix}/bin/nixos-rebuild switch --flake ./#${systemSettings.hostname}";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Flake";
     };
@@ -20,7 +21,7 @@
       Persistent = true;
     };
   };
-
+  # Service that runs the Machine reboot playbook.
   systemd.services.ansibleRebootMachines = {
     description = "Reboot all the servers, daily.";
     after = [ "network-online.target" ];
