@@ -122,7 +122,6 @@
     zoxide
     fzf
     dust
-    atuin
   ];
 
   # NixOS version
