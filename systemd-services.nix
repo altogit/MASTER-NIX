@@ -47,7 +47,7 @@
       Persistent = true;
     };
   };
-    # Service that Updates servers.
+  # Service that Updates servers.
   systemd.services.ansibleUpdateMachines = {
     description = "Update all the servers, weekly.";
     after = [ "network-online.target" ];
@@ -73,7 +73,7 @@
       Persistent = true;
     };
   };
-      # Service that Backup servers.
+  # Service that Backup servers.
   systemd.services.ansibleBackupMachines = {
     description = "Backup all the servers, 1st of the month.";
     after = [ "network-online.target" ];
@@ -95,11 +95,11 @@
     description = "Timer for ansibleBackupMachines.service";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "1-*-* 00:30";
+      OnCalendar = "*-*-1 00:30";
       Persistent = true;
     };
   };
-        # Service that Backup servers.
+  # Service that Backup servers.
   systemd.services.ansibleBackup2Machines = {
     description = "Backup all the servers, 15th of the month.";
     after = [ "network-online.target" ];
@@ -125,7 +125,7 @@
       Persistent = true;
     };
   };
-          # Service gets the Tally app report.
+  # Service gets the Tally app report.
   systemd.services.ansibleTallyApp = {
     description = "Generate the TallyApp report daily.";
     after = [ "network-online.target" ];
@@ -148,6 +148,32 @@
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "*-*-* 07:00";
+      Persistent = true;
+    };
+  };
+  # Service that deduplicates DCMLTSTORE AND DCMMST Databases.
+  systemd.services.ansibleDeduplicate = {
+    description = "Deduplicate patients on DCMLTSTORE and DCMMST.";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
+      User = userSettings.username;
+      WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/python";
+      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/python/patch.log";
+      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/python/patch.log";
+      Environment = [
+        "HOME=/home/${userSettings.username}"
+        "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
+      ];
+    };
+  };
+  systemd.timers.ansibleDeduplicate = {
+    description = "Timer for ansibleDeduplicate.service";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 23:00";
       Persistent = true;
     };
   };
