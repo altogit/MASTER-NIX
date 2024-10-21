@@ -121,7 +121,7 @@
     description = "Timer for ansibleBackup2Machines.service";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "15-*-* 00:30";
+      OnCalendar = "*-*-15 00:30";
       Persistent = true;
     };
   };
