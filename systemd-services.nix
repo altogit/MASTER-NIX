@@ -17,7 +17,7 @@
     description = "Timer for nixosRebuild.service";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "16:30";
+      OnCalendar = "13:30";
       Persistent = true;
     };
   };
