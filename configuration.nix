@@ -130,6 +130,7 @@
     zoxide
     fzf
     dust
+    sshpass
   ];
 
   # NixOS version
