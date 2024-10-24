@@ -14,7 +14,7 @@
       userSettings = {
         username = "alto";
         name = "Alto";
-        hashedPassword = "$6$hdaFwg0d/NhfY1PR$iLeC38mCzOWDF2OU7Hb7Vmeo9lKmMGgxd36w4IhXJYHQ9jyyadF3MqZ9Ck2xdbOsbiqMoz.k1JA2.cobK0ncX0";
+        hashedPassword = "$6$hdaFwg0d/NhfY1PR$iLeC38mCzOWDF2OU7Hb7Vmeo9lKmMGgxd36w4IhXJYHQ9jyyadF3MqZ9Ck2xdbOsbiqMoz.k1JA2.cobK0ncX0/";
         gitHubUser = "altogit";
         gitHubPAT-File = "/home/alto/GH/ghapi";
       };
