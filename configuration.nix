@@ -131,6 +131,7 @@
     fzf
     dust
     sshpass
+    yazi
   ];
 
   # NixOS version
