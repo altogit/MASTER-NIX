@@ -31,8 +31,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/rebootmachines";
-      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/rebootmachines/patch.log";
-      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/rebootmachines/patch.log";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/rebootmachines/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/rebootmachines/patch.log";
       Environment = [
         "HOME=/home/${userSettings.username}"
         "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
@@ -57,8 +57,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/updatesrv";
-      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/updatesrv/patch.log";
-      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/updatesrv/patch.log";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/updatesrv/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/updatesrv/patch.log";
       Environment = [
         "HOME=/home/${userSettings.username}"
         "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
@@ -83,8 +83,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/backup1";
-      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/backup1/patch.log";
-      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/backup1/patch.log";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/backup1/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/backup1/patch.log";
       Environment = [
         "HOME=/home/${userSettings.username}"
         "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
@@ -109,8 +109,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/backup2";
-      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/backup2/patch.log";
-      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/backup2/patch.log";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/backup2/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/backup2/patch.log";
       Environment = [
         "HOME=/home/${userSettings.username}"
         "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
@@ -135,8 +135,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/tally-app-reports";
-      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/tally-app-reports/patch.log";
-      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/tally-app-reports/patch.log";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/tally-app-reports/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/tally-app-reports/patch.log";
       Environment = [
         "HOME=/home/${userSettings.username}"
         "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
@@ -161,8 +161,8 @@
       ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
       User = userSettings.username;
       WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/python";
-      StandardOutput = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/python/patch.log";
-      StandardError = "append:/home/${userSettings.username}/Ansible/${userSettings.username}/python/patch.log";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/python/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/python/patch.log";
       Environment = [
         "HOME=/home/${userSettings.username}"
         "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
