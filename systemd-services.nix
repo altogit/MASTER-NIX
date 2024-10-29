@@ -177,4 +177,30 @@
       Persistent = true;
     };
   };
+    # Service that removes old NixOS configurations and dependcies.
+  systemd.services.nixcg = {
+    description = "Remove old NixOS configurations and dependancies";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.ansible}/bin/ansible-playbook ./main.yml --inventory ../inventory --vault-password-file /home/${userSettings.username}/GH/vault.key";
+      User = userSettings.username;
+      WorkingDirectory = "/home/${userSettings.username}/Ansible/${userSettings.username}/nixCG";
+      StandardOutput = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/nixCG/patch.log";
+      StandardError = "file:/home/${userSettings.username}/Ansible/${userSettings.username}/nixCG/patch.log";
+      Environment = [
+        "HOME=/home/${userSettings.username}"
+        "PATH=${pkgs.openssh}/bin:${pkgs.ansible}/bin:${pkgs.coreutils}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin"
+      ];
+    };
+  };
+  systemd.timers.nixcg = {
+    description = "Timer for nixcg.service";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 23:00";
+      Persistent = true;
+    };
+  };
 }
