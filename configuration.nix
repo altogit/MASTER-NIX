@@ -209,6 +209,14 @@
         schedule = "*-*-* 16:00:00";  # Run at 4pm every day.
         token = "${userSettings.gitHubPAT-File}";
       }
+     {
+        name = "CMHSPRIOR";
+        url = "github.com/${userSettings.gitHubUser}/CMHSPRIOR-NIX";
+        destination = "/home/alto/ansible-requirements/CMHSPRIOR-NIX";
+        user = "${userSettings.gitHubUser}";
+        schedule = "*-*-* 16:00:00";  # Run at 4pm every day.
+        token = "${userSettings.gitHubPAT-File}";
+      }
     ];
   };  
 }
