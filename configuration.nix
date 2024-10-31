@@ -132,6 +132,7 @@
     dust
     sshpass
     yazi
+    rsync
   ];
 
   # NixOS version
