@@ -133,6 +133,10 @@
     sshpass
     yazi
     rsync
+    neovim
+    ghostty
+    atuin
+    zoxide
   ];
 
   # NixOS version

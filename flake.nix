@@ -2,7 +2,7 @@
   description = "Flake for Master Ansible server";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     oldpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
     unstablepkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
@@ -14,7 +14,7 @@
       userSettings = {
         username = "alto";
         name = "Alto";
-        hashedPassword = "$6$4nUdF3ySuNSRKLLh$fGjvmMQ1332atbbfSkGiMZqAMiVMq07QtiK.EHqaWhZBRf9YBMyMFFyqw5KDh6HaQe2khL6JSigvv4WTB2lpD1";
+        hashedPassword = "$6$k1SDMOvzfz8eDeNL$iPbE.qp2McbIehUrTAN1DHL8CJJ.W/sSwV49wrzTHxIdfo/p3maHXCXOkDiuT2z6zRTlYyCKCfvV/chVlP9bU1";
         gitHubUser = "altogit";
         gitHubPAT-File = "/home/alto/GH/ghapi";
       };
